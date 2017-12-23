@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
  * Class BackendFormField
  * @package skeeks\cms\backend
  */
-class FieldBuilder extends Component
+class FormFieldsBuilder extends Component
 {
 
     /**
@@ -34,6 +34,11 @@ class FieldBuilder extends Component
      * @var Model
      */
     protected $_model;
+
+    /**
+     * @var Model[]
+     */
+    protected $_models;
 
     /**
      * @var array|Field[]
@@ -73,6 +78,16 @@ class FieldBuilder extends Component
     }
 
     /**
+     * @param Model[] $models
+     * @return $this
+     */
+    public function setModels($models = [])
+    {
+        $this->_models = $models;
+        return $this;
+    }
+
+    /**
      * @param array $fields
      * @return $this
      */
@@ -80,6 +95,28 @@ class FieldBuilder extends Component
     {
         $this->_fields = $fields;
         return $this;
+    }
+
+    /**
+     * @param string $key
+     * @return mixed|Model
+     * @throws InvalidConfigException
+     */
+    protected function _getAdditionalModel($key)
+    {
+        $model = null;
+
+        if (!$this->_models) {
+            throw new InvalidConfigException('!!!');
+        }
+
+        $model = ArrayHelper::getValue($this->_models, $key);
+
+        if (!$model) {
+            throw new InvalidConfigException('!!!');
+        }
+
+        return $model;
     }
 
     /**
@@ -97,23 +134,30 @@ class FieldBuilder extends Component
         foreach ($this->_fields as $key => $field) {
             if ($field instanceof Field) {
                 $result[] = $field;
-            } elseif (is_string($field)) {
-                $result[] = \Yii::createObject([
-                    'class' => Field::class,
-                    'attribute' => $field,
-                    'model' => $this->_model,
-                    'activeForm' => $this->_activeForm,
-                ]);
             } elseif (is_array($field)) {
 
                 $config = ArrayHelper::merge([
                     'class' => Field::class,
-                    'attribute' => $key,
-                    'model' => $this->_model,
+                    'attribute' => $this->_getClearAttributeName($key),
+                    'model' => $this->_getModelByKey($key),
                     'activeForm' => $this->_activeForm,
                 ], $field);
 
                 $result[] = \Yii::createObject($config);
+            } elseif (is_string($field) && is_string($key)) {
+                $result[] = \Yii::createObject([
+                    'class' => $field,
+                    'attribute' => $this->_getClearAttributeName($key),
+                    'model' => $this->_getModelByKey($key),
+                    'activeForm' => $this->_activeForm,
+                ]);
+            } elseif (is_string($field) && is_int($key)) {
+                $result[] = \Yii::createObject([
+                    'class' => Field::class,
+                    'attribute' => $this->_getClearAttributeName($field),
+                    'model' => $this->_getModelByKey($field),
+                    'activeForm' => $this->_activeForm,
+                ]);
             } else {
                 throw new InvalidConfigException('!!!');
             }
@@ -122,4 +166,30 @@ class FieldBuilder extends Component
         $this->_fields = $result;
         return $this;
     }
+
+    /**
+     * @param $key
+     * @return mixed|Model
+     */
+    protected function _getModelByKey($key)
+    {
+        if ($pos = strpos($key, '.')) {
+            $modelName = substr($key, 0, $pos);
+            return $this->_getAdditionalModel($modelName);
+        } else {
+            return $this->_model;
+        }
+    }
+
+
+    protected function _getClearAttributeName($name)
+    {
+        if ($pos = strpos($name, '.')) {
+            return substr($name, $pos + 1, strlen($name));
+        } else {
+            return $name;
+        }
+    }
+
+
 }

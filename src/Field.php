@@ -45,6 +45,24 @@ class Field extends Component implements IField
     public $_options = [];
 
     /**
+     * @var null|string|false
+     */
+    public $label = null;
+    /**
+     * @var array
+     */
+    public $labelOptions = [];
+
+    /**
+     * @var string|bool $content the hint content.
+     */
+    public $hint = null;
+    /**
+     * @var array
+     */
+    public $hintOptions = [];
+
+    /**
      * @return \yii\widgets\ActiveField
      */
     public function getActiveField()
@@ -53,7 +71,17 @@ class Field extends Component implements IField
             throw new InvalidConfigException('Not found form or model or attribute');
         }
 
-        return $this->_activeForm->field($this->_model, $this->_attribute, $this->_options);
+        $activeField = $this->_activeForm->field($this->_model, $this->_attribute, $this->_options);
+
+        if ($this->label !== null || $this->labelOptions) {
+            $activeField->label($this->label, $this->labelOptions);
+        }
+
+        if ($this->hint !== null || $this->labelOptions) {
+            $activeField->hint($this->hint, $this->hintOptions);
+        }
+
+        return $activeField;
     }
 
     /**
