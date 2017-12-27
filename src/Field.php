@@ -12,12 +12,14 @@ use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\base\ViewContextInterface;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveField;
 use yii\widgets\ActiveForm;
 
 /**
  * @property ActiveField $activeField;
  * @property string $attribute;
+ * @property string $label;
  *
  * Class BackendFormField
  * @package skeeks\cms\backend
@@ -47,7 +49,7 @@ class Field extends Component implements IField
     /**
      * @var null|string|false
      */
-    public $label = null;
+    protected $_label = null;
     /**
      * @var array
      */
@@ -129,6 +131,34 @@ class Field extends Component implements IField
     public function setOptions($options = [])
     {
         $this->_options = $options;
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->_label;
+    }
+
+    /**
+     * @param string|array $label
+     * @return $this
+     */
+    public function setLabel($label)
+    {
+        if (is_array($label)) {
+            $this->_label = \Yii::t(
+                ArrayHelper::getValue($label, 0),
+                ArrayHelper::getValue($label, 1, ''),
+                ArrayHelper::getValue($label, 2, []),
+                ArrayHelper::getValue($label, 3)
+            );
+        } else if (is_string($label)) {
+            $this->_label = $label;
+        }
+        
         return $this;
     }
 }
