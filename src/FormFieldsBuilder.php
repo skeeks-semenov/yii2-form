@@ -8,6 +8,7 @@
 
 namespace skeeks\yii2\form;
 
+use skeeks\yii2\form\fields\TextField;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
@@ -52,7 +53,7 @@ class FormFieldsBuilder extends Component
 
         if ($this->_fields) {
             foreach ($this->_fields as $field) {
-                echo $field->activeField;
+                echo $field->render();
             }
         }
     }
@@ -137,7 +138,7 @@ class FormFieldsBuilder extends Component
             } elseif (is_array($field)) {
 
                 $config = ArrayHelper::merge([
-                    'class' => Field::class,
+                    'class' => TextField::class,
                     'attribute' => $this->_getClearAttributeName($key),
                     'model' => $this->_getModelByKey($key),
                     'activeForm' => $this->_activeForm,
@@ -153,7 +154,7 @@ class FormFieldsBuilder extends Component
                 ]);
             } elseif (is_string($field) && is_int($key)) {
                 $result[] = \Yii::createObject([
-                    'class' => Field::class,
+                    'class' => TextField::class,
                     'attribute' => $this->_getClearAttributeName($field),
                     'model' => $this->_getModelByKey($field),
                     'activeForm' => $this->_activeForm,

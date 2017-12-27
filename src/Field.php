@@ -18,14 +18,18 @@ use yii\widgets\ActiveForm;
 
 /**
  * @property ActiveField $activeField;
+ *
  * @property string $attribute;
+ * @property Model $model;
  * @property string $label;
  *
  * Class BackendFormField
  * @package skeeks\cms\backend
  */
-class Field extends Component implements IField
+abstract class Field extends Component implements IField
 {
+    const EVENT_BEFORE_RENDER = 'beforeRender';
+
     /**
      * @var ActiveForm
      */
@@ -63,6 +67,15 @@ class Field extends Component implements IField
      * @var array
      */
     public $hintOptions = [];
+
+    /**
+     * @return string
+     */
+    public function render() {
+        $activeField =  $this->activeField;
+        $this->trigger(self::EVENT_BEFORE_RENDER);
+        return (string) $activeField;
+    }
 
     /**
      * @return \yii\widgets\ActiveField
@@ -104,6 +117,14 @@ class Field extends Component implements IField
     {
         $this->_model = $model;
         return $this;
+    }
+
+    /**
+     * @return Model
+     */
+    public function getModel()
+    {
+        return $this->_model;
     }
 
     /**
