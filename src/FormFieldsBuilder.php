@@ -19,6 +19,9 @@ use yii\widgets\ActiveForm;
 
 /**
  * @property ActiveField $activeField;
+ * @property Model $model;
+ * @property Model[] $models;
+ * @property Field[] $fields;
  *
  * Class BackendFormField
  * @package skeeks\cms\backend
@@ -79,6 +82,14 @@ class FormFieldsBuilder extends Component
     }
 
     /**
+     * @return Model
+     */
+    public function getModel()
+    {
+        return $this->_model;
+    }
+
+    /**
      * @param Model[] $models
      * @return $this
      */
@@ -89,6 +100,14 @@ class FormFieldsBuilder extends Component
     }
 
     /**
+     * @return Model[]
+     */
+    public function getModels()
+    {
+        return $this->_models;
+    }
+
+    /**
      * @param array $fields
      * @return $this
      */
@@ -96,6 +115,14 @@ class FormFieldsBuilder extends Component
     {
         $this->_fields = $fields;
         return $this;
+    }
+
+    /**
+     * @return array|Field[]
+     */
+    public function getFields()
+    {
+        return $this->_fields;
     }
 
     /**
@@ -139,6 +166,7 @@ class FormFieldsBuilder extends Component
 
                 $config = ArrayHelper::merge([
                     'class' => TextField::class,
+                    'formFieldsBuilder' => $this,
                     'attribute' => $this->_getClearAttributeName($key),
                     'model' => $this->_getModelByKey($key),
                     'activeForm' => $this->_activeForm,
@@ -148,6 +176,7 @@ class FormFieldsBuilder extends Component
             } elseif (is_string($field) && is_string($key)) {
                 $result[] = \Yii::createObject([
                     'class' => $field,
+                    'formFieldsBuilder' => $this,
                     'attribute' => $this->_getClearAttributeName($key),
                     'model' => $this->_getModelByKey($key),
                     'activeForm' => $this->_activeForm,
@@ -155,6 +184,7 @@ class FormFieldsBuilder extends Component
             } elseif (is_string($field) && is_int($key)) {
                 $result[] = \Yii::createObject([
                     'class' => TextField::class,
+                    'formFieldsBuilder' => $this,
                     'attribute' => $this->_getClearAttributeName($field),
                     'model' => $this->_getModelByKey($field),
                     'activeForm' => $this->_activeForm,

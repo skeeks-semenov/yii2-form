@@ -46,6 +46,11 @@ abstract class Field extends Component implements IField
     protected $_attribute;
 
     /**
+     * @var FormFieldsBuilder
+     */
+    public $formFieldsBuilder;
+
+    /**
      * @var array
      */
     public $_options = [];

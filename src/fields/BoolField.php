@@ -9,6 +9,7 @@
 namespace skeeks\yii2\form\fields;
 
 use skeeks\yii2\form\Field;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class BoolField
@@ -18,6 +19,7 @@ class BoolField extends Field
 {
     const ELEMENT_RADIO_LIST = 'radioList';
     const ELEMENT_CHECKBOX = 'checkbox';
+    const ELEMENT_LISTBOX = 'listBox';
 
     /**
      * @var string
@@ -35,26 +37,73 @@ class BoolField extends Field
     public $trueValue = 1;
 
     /**
+     * @var string
+     */
+    public $trueLabel;
+
+    /**
      * @var int
      */
     public $falseValue = 0;
 
+    /**
+     * @var string
+     */
+    public $falseLabel;
+
+
+    public $nullLabel = '--';
+
+    /**
+     * @var bool
+     */
+    public $allowNull = true;
+
+    public function init()
+    {
+        parent::init();
+
+        if (!$this->trueLabel) {
+            $this->trueLabel = \Yii::$app->formatter->asBoolean(1);
+        }
+
+        if (!$this->falseLabel) {
+            $this->falseLabel = \Yii::$app->formatter->asBoolean(0);
+        }
+    }
     /**
      * @return \yii\widgets\ActiveField
      */
     public function getActiveField()
     {
         $field = parent::getActiveField();
+
+        if ($this->allowNull) {
+            $this->formElement = self::ELEMENT_LISTBOX;
+            $this->elementOptions['size'] = 1;
+        }
+
         return $field->{$this->formElement}($this->getItems(), $this->elementOptions);
     }
 
     /**
      * @return array
      */
-    public function getItems() {
-        return [
-            $this->trueValue => \Yii::$app->formatter->asBoolean(1),
-            $this->falseValue => \Yii::$app->formatter->asBoolean(0)
-        ];
+    public function getItems()
+    {
+        $result = [];
+
+        if ($this->allowNull) {
+            $result = [
+                null => $this->nullLabel
+            ];
+        }
+
+        $result = ArrayHelper::merge($result, [
+            $this->trueValue  => $this->trueLabel,
+            $this->falseValue => $this->falseLabel,
+        ]);
+
+        return $result;
     }
 }
