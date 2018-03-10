@@ -26,15 +26,8 @@ use yii\widgets\ActiveForm;
  * Class BackendFormField
  * @package skeeks\cms\backend
  */
-abstract class Field extends Component implements IField
+abstract class Field extends Element implements IField
 {
-    const EVENT_BEFORE_RENDER = 'beforeRender';
-
-    /**
-     * @var ActiveForm
-     */
-    protected $_activeForm;
-
     /**
      * @var Model
      */
@@ -44,11 +37,6 @@ abstract class Field extends Component implements IField
      * @var string
      */
     protected $_attribute;
-
-    /**
-     * @var FormFieldsBuilder
-     */
-    public $formFieldsBuilder;
 
     /**
      * @var array
@@ -77,9 +65,7 @@ abstract class Field extends Component implements IField
      * @return string
      */
     public function render() {
-        $activeField =  $this->activeField;
-        $this->trigger(self::EVENT_BEFORE_RENDER);
-        return (string) $activeField;
+        return  (string) $this->activeField;
     }
 
     /**
@@ -102,16 +88,6 @@ abstract class Field extends Component implements IField
         }
 
         return $activeField;
-    }
-
-    /**
-     * @param ActiveForm $activeForm
-     * @return $this
-     */
-    public function setActiveForm(ActiveForm $activeForm)
-    {
-        $this->_activeForm = $activeForm;
-        return $this;
     }
 
     /**

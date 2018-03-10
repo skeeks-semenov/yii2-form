@@ -23,12 +23,11 @@ use yii\widgets\ActiveForm;
  * @property Model[] $models;
  * @property Field[] $fields;
  *
- * Class BackendFormField
- * @package skeeks\cms\backend
+ * Class FormBuilder
+ * @package skeeks\cms\form
  */
-class FormFieldsBuilder extends Component
+class FormBuilder extends Component
 {
-
     /**
      * @var ActiveForm
      */
@@ -56,7 +55,7 @@ class FormFieldsBuilder extends Component
 
         if ($this->_fields) {
             foreach ($this->_fields as $field) {
-                echo $field->render();
+                echo $field->run();
             }
         }
     }
@@ -166,7 +165,7 @@ class FormFieldsBuilder extends Component
 
                 $config = ArrayHelper::merge([
                     'class' => TextField::class,
-                    'formFieldsBuilder' => $this,
+                    'formBuilder' => $this,
                     'attribute' => $this->_getClearAttributeName($key),
                     'model' => $this->_getModelByKey($key),
                     'activeForm' => $this->_activeForm,
@@ -176,7 +175,7 @@ class FormFieldsBuilder extends Component
             } elseif (is_string($field) && is_string($key)) {
                 $result[] = \Yii::createObject([
                     'class' => $field,
-                    'formFieldsBuilder' => $this,
+                    'formBuilder' => $this,
                     'attribute' => $this->_getClearAttributeName($key),
                     'model' => $this->_getModelByKey($key),
                     'activeForm' => $this->_activeForm,
@@ -184,7 +183,7 @@ class FormFieldsBuilder extends Component
             } elseif (is_string($field) && is_int($key)) {
                 $result[] = \Yii::createObject([
                     'class' => TextField::class,
-                    'formFieldsBuilder' => $this,
+                    'formBuilder' => $this,
                     'attribute' => $this->_getClearAttributeName($field),
                     'model' => $this->_getModelByKey($field),
                     'activeForm' => $this->_activeForm,

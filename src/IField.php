@@ -23,17 +23,6 @@ interface IField
     public function getActiveField();
 
     /**
-     * @return string
-     */
-    public function render();
-
-    /**
-     * @param ActiveForm $activeForm
-     * @return $this
-     */
-    public function setActiveForm(ActiveForm $activeForm);
-
-    /**
      * @param Model $model
      * @return $this
      */

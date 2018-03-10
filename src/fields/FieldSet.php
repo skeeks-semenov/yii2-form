@@ -41,8 +41,8 @@ class FieldSet extends Field
             $this->name = $this->attribute;
         }
 
-
-        $formBuilder = clone $this->formFieldsBuilder;
+        $formBuilder = clone $this->formBuilder;
+        $formBuilder->model = $this->model;
         $formBuilder->fields = $this->fields;
 
         echo Html::beginTag('div', [
