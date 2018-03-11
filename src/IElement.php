@@ -8,7 +8,6 @@
 
 namespace skeeks\yii2\form;
 
-use yii\base\Model;
 use yii\widgets\ActiveForm;
 
 /**
@@ -37,10 +36,10 @@ interface IElement
      * @param FormBuilder $formBuilder
      * @return $this
      */
-    public function setFormBuilder(FormBuilder $formBuilder);
+    public function setBuilder(Builder $builder);
 
     /**
      * @return FormBuilder
      */
-    public function getFormBuilder();
+    public function getBuilder();
 }

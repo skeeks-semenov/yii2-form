@@ -23,10 +23,10 @@ use yii\widgets\ActiveForm;
  * @property Model[] $models;
  * @property Field[] $fields;
  *
- * Class FormBuilder
+ * Class Builder
  * @package skeeks\cms\form
  */
-class FormBuilder extends Component
+class Builder extends Component
 {
     /**
      * @var ActiveForm

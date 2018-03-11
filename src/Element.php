@@ -12,8 +12,8 @@ use yii\base\Component;
 use yii\widgets\ActiveForm;
 
 /**
- * @property FormBuilder $formBuilder;
- * @property ActiveForm  $activeForm;
+ * @property Builder    $builder;
+ * @property ActiveForm $activeForm;
  *
  * Class Element
  * @package skeeks\cms\form
@@ -24,9 +24,9 @@ class Element extends Component implements IElement
     const EVENT_AFTER_RENDER = 'afterRender';
 
     /**
-     * @var FormBuilder
+     * @var Builder
      */
-    public $_formBuilder;
+    public $_builder;
 
     /**
      * @var ActiveForm
@@ -69,19 +69,19 @@ class Element extends Component implements IElement
         return $this;
     }
     /**
-     * @return FormBuilder
+     * @return Builder
      */
-    public function getFormBuilder()
+    public function getBuilder()
     {
-        return $this->_formBuilder;
+        return $this->_builder;
     }
     /**
-     * @param FormBuilder $formBuilder
+     * @param Builder $formBuilder
      * @return $this
      */
-    public function setFormBuilder(FormBuilder $formBuilder)
+    public function setBuilder(Builder $formBuilder)
     {
-        $this->_formBuilder = $formBuilder;
+        $this->_builder = $formBuilder;
         return $this;
     }
 
