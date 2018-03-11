@@ -33,13 +33,13 @@ interface IElement
     public function getActiveForm();
 
     /**
-     * @param FormBuilder $formBuilder
+     * @param Builder $builder
      * @return $this
      */
     public function setBuilder(Builder $builder);
 
     /**
-     * @return FormBuilder
+     * @return Builder
      */
     public function getBuilder();
 }

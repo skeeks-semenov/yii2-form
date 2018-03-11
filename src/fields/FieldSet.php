@@ -41,9 +41,9 @@ class FieldSet extends Field
             $this->name = $this->attribute;
         }
 
-        $formBuilder = clone $this->formBuilder;
-        $formBuilder->model = $this->model;
-        $formBuilder->fields = $this->fields;
+        $builder = clone $this->builder;
+        $builder->model = $this->model;
+        $builder->fields = $this->fields;
 
         echo Html::beginTag('div', [
             'class' => 'sx-form-tab tab-pane',
@@ -52,7 +52,7 @@ class FieldSet extends Field
             'role' => 'tabpanel',
         ]);
 
-        echo $formBuilder->render();
+        echo $builder->render();
         echo Html::endTag('div');
 
     }

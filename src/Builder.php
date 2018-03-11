@@ -165,7 +165,7 @@ class Builder extends Component
 
                 $config = ArrayHelper::merge([
                     'class' => TextField::class,
-                    'formBuilder' => $this,
+                    'builder' => $this,
                     'attribute' => $this->_getClearAttributeName($key),
                     'model' => $this->_getModelByKey($key),
                     'activeForm' => $this->_activeForm,
@@ -175,7 +175,7 @@ class Builder extends Component
             } elseif (is_string($field) && is_string($key)) {
                 $result[] = \Yii::createObject([
                     'class' => $field,
-                    'formBuilder' => $this,
+                    'builder' => $this,
                     'attribute' => $this->_getClearAttributeName($key),
                     'model' => $this->_getModelByKey($key),
                     'activeForm' => $this->_activeForm,
@@ -183,7 +183,7 @@ class Builder extends Component
             } elseif (is_string($field) && is_int($key)) {
                 $result[] = \Yii::createObject([
                     'class' => TextField::class,
-                    'formBuilder' => $this,
+                    'builder' => $this,
                     'attribute' => $this->_getClearAttributeName($field),
                     'model' => $this->_getModelByKey($field),
                     'activeForm' => $this->_activeForm,

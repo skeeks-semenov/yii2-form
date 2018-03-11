@@ -79,9 +79,9 @@ class Element extends Component implements IElement
      * @param Builder $formBuilder
      * @return $this
      */
-    public function setBuilder(Builder $formBuilder)
+    public function setBuilder(Builder $builder)
     {
-        $this->_builder = $formBuilder;
+        $this->_builder = $builder;
         return $this;
     }
 
