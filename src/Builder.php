@@ -12,16 +12,15 @@ use skeeks\yii2\form\fields\TextField;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
-use yii\base\ViewContextInterface;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveField;
 use yii\widgets\ActiveForm;
 
 /**
  * @property ActiveField $activeField;
- * @property Model $model;
- * @property Model[] $models;
- * @property Field[] $fields;
+ * @property Model       $model;
+ * @property Model[]     $models;
+ * @property Field[]     $fields;
  *
  * Class Builder
  * @package skeeks\cms\form
@@ -59,71 +58,91 @@ class Builder extends Component
             }
         }
     }
-
-    /**
-     * @param ActiveForm $activeForm
-     * @return $this
-     */
-    public function setActiveForm(ActiveForm $activeForm)
-    {
-        $this->_activeForm = $activeForm;
-        return $this;
-    }
-
-    /**
-     * @param Model $model
-     * @return $this
-     */
-    public function setModel(Model $model)
-    {
-        $this->_model = $model;
-        return $this;
-    }
-
-    /**
-     * @return Model
-     */
-    public function getModel()
-    {
-        return $this->_model;
-    }
-
-    /**
-     * @param Model[] $models
-     * @return $this
-     */
-    public function setModels($models = [])
-    {
-        $this->_models = $models;
-        return $this;
-    }
-
-    /**
-     * @return Model[]
-     */
-    public function getModels()
-    {
-        return $this->_models;
-    }
-
     /**
      * @param array $fields
-     * @return $this
+     * @throws InvalidConfigException
      */
-    public function setFields($fields = [])
+    protected function _initFields()
     {
-        $this->_fields = $fields;
+        if (!$this->_fields) {
+            return $this;
+        }
+
+        $result = [];
+
+        foreach ($this->_fields as $key => $field) {
+
+            $config = [];
+
+            if ($field instanceof Field) {
+                $result[] = $field;
+            } elseif ($field instanceof Element) {
+                $result[] = $field;
+            } elseif (is_array($field)) {
+
+                $config = ArrayHelper::merge([
+                    'class'      => TextField::class,
+                    'builder'    => $this,
+                    'attribute'  => $this->_getClearAttributeName($key),
+                    'model'      => $this->_getModelByKey($key),
+                    'activeForm' => $this->_activeForm,
+                ], $field);
+            } elseif (is_string($field) && is_string($key)) {
+                $config = [
+                    'class'      => $field,
+                    'builder'    => $this,
+                    'attribute'  => $this->_getClearAttributeName($key),
+                    'model'      => $this->_getModelByKey($key),
+                    'activeForm' => $this->_activeForm,
+                ];
+            } elseif (is_string($field) && is_int($key)) {
+                $config = [
+                    'class'      => TextField::class,
+                    'builder'    => $this,
+                    'attribute'  => $this->_getClearAttributeName($field),
+                    'model'      => $this->_getModelByKey($field),
+                    'activeForm' => $this->_activeForm,
+                ];
+            } else {
+                throw new InvalidConfigException('!!!');
+            }
+
+            if ($config) {
+                $className = ArrayHelper::getValue($config, 'class');
+                if (!is_subclass_of($className, Field::class) ) {
+                    ArrayHelper::remove($config, 'model');
+                    ArrayHelper::remove($config, 'attribute');
+                }
+                $result[] = \Yii::createObject($config);
+            }
+
+
+        }
+
+        $this->_fields = $result;
         return $this;
     }
-
-    /**
-     * @return array|Field[]
-     */
-    public function getFields()
+    protected function _getClearAttributeName($name)
     {
-        return $this->_fields;
+        if ($pos = strpos($name, '.')) {
+            return substr($name, $pos + 1, strlen($name));
+        } else {
+            return $name;
+        }
     }
-
+    /**
+     * @param $key
+     * @return mixed|Model
+     */
+    protected function _getModelByKey($key)
+    {
+        if ($pos = strpos($key, '.')) {
+            $modelName = substr($key, 0, $pos);
+            return $this->_getAdditionalModel($modelName);
+        } else {
+            return $this->_model;
+        }
+    }
     /**
      * @param string $key
      * @return mixed|Model
@@ -145,80 +164,62 @@ class Builder extends Component
 
         return $model;
     }
-
     /**
-     * @param array $fields
-     * @throws InvalidConfigException
+     * @param ActiveForm $activeForm
+     * @return $this
      */
-    protected function _initFields()
+    public function setActiveForm(ActiveForm $activeForm)
     {
-        if (!$this->_fields) {
-            return $this;
-        }
-
-        $result = [];
-
-        foreach ($this->_fields as $key => $field) {
-            if ($field instanceof Field) {
-                $result[] = $field;
-            } elseif (is_array($field)) {
-
-                $config = ArrayHelper::merge([
-                    'class' => TextField::class,
-                    'builder' => $this,
-                    'attribute' => $this->_getClearAttributeName($key),
-                    'model' => $this->_getModelByKey($key),
-                    'activeForm' => $this->_activeForm,
-                ], $field);
-
-                $result[] = \Yii::createObject($config);
-            } elseif (is_string($field) && is_string($key)) {
-                $result[] = \Yii::createObject([
-                    'class' => $field,
-                    'builder' => $this,
-                    'attribute' => $this->_getClearAttributeName($key),
-                    'model' => $this->_getModelByKey($key),
-                    'activeForm' => $this->_activeForm,
-                ]);
-            } elseif (is_string($field) && is_int($key)) {
-                $result[] = \Yii::createObject([
-                    'class' => TextField::class,
-                    'builder' => $this,
-                    'attribute' => $this->_getClearAttributeName($field),
-                    'model' => $this->_getModelByKey($field),
-                    'activeForm' => $this->_activeForm,
-                ]);
-            } else {
-                throw new InvalidConfigException('!!!');
-            }
-        }
-
-        $this->_fields = $result;
+        $this->_activeForm = $activeForm;
         return $this;
     }
-
     /**
-     * @param $key
-     * @return mixed|Model
+     * @return Model
      */
-    protected function _getModelByKey($key)
+    public function getModel()
     {
-        if ($pos = strpos($key, '.')) {
-            $modelName = substr($key, 0, $pos);
-            return $this->_getAdditionalModel($modelName);
-        } else {
-            return $this->_model;
-        }
+        return $this->_model;
     }
-
-
-    protected function _getClearAttributeName($name)
+    /**
+     * @param Model $model
+     * @return $this
+     */
+    public function setModel(Model $model)
     {
-        if ($pos = strpos($name, '.')) {
-            return substr($name, $pos + 1, strlen($name));
-        } else {
-            return $name;
-        }
+        $this->_model = $model;
+        return $this;
+    }
+    /**
+     * @return Model[]
+     */
+    public function getModels()
+    {
+        return $this->_models;
+    }
+    /**
+     * @param Model[] $models
+     * @return $this
+     */
+    public function setModels($models = [])
+    {
+        $this->_models = $models;
+        return $this;
+    }
+    /**
+     * @return array|Field[]
+     */
+    public function getFields()
+    {
+        return $this->_fields;
+    }
+    /**
+     * @param array $fields
+     * @return $this
+     */
+    public function setFields($fields = [])
+    {
+        $this->_fields = $fields;
+        return $this;
     }
 
 
