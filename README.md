@@ -7,6 +7,22 @@ Links
 * [Author](https://skeeks.com)
 
 
+```php
+
+<?php $form = \yii2\widgets\ActiveForm::begin(); ?>
+
+
+<? echo (new \skeeks\yii2\form\Builder([
+    'model'      => $model,
+    'activeForm' => $form,
+    'fields'     => [
+            
+    ],
+]))->render(); ?>
+    
+<?php \yii2\widgets\ActiveForm::end(); ?>
+
+```
 ___
 
 > [![skeeks!](https://skeeks.com/img/logo/logo-no-title-80px.png)](https://skeeks.com)  
