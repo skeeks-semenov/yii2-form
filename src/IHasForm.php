@@ -16,15 +16,15 @@ interface IHasForm
 {
     /**
      * @see Builder
-     * @return string
+     * @return array
      */
-    public function getFormFields();
+    public function builderFields();
 
     /**
      * @see Builder
      * @return array
      */
-    public function getFormModels();
+    public function builderModels();
 
     /**
      * @return string
