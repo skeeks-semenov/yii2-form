@@ -29,5 +29,5 @@ interface IHasForm
     /**
      * @return string
      */
-    public function renderActiveForm();
+    //public function renderActiveForm();
 }
