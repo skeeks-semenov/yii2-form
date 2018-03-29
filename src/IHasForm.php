@@ -1,16 +1,15 @@
 <?php
 /**
+ * @link https://cms.skeeks.com/
+ * @copyright Copyright (c) 2010 SkeekS
+ * @license https://cms.skeeks.com/license/
  * @author Semenov Alexander <semenov@skeeks.com>
- * @link https://skeeks.com/
- * @copyright 2010 SkeekS
- * @date 06.03.2017
  */
 
 namespace skeeks\yii2\form;
 
 /**
- * Interface IHasForm
- * @package skeeks\yii2\form
+ * @author Semenov Alexander <semenov@skeeks.com>
  */
 interface IHasForm
 {
@@ -27,6 +26,7 @@ interface IHasForm
     public function builderModels();
 
     /**
+     * TODO: подумать.
      * @return string
      */
     //public function renderActiveForm();
