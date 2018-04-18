@@ -22,6 +22,7 @@ use yii\widgets\ActiveForm;
  * @property string $attribute;
  * @property Model $model;
  * @property string $label;
+ * @property string $value;
  *
  * Class BackendFormField
  * @package skeeks\cms\backend
@@ -47,6 +48,12 @@ abstract class Field extends Element implements IField
      * @var null|string|false
      */
     protected $_label = null;
+
+    /**
+     * @var
+     */
+    protected $_value;
+
     /**
      * @var array
      */
@@ -162,5 +169,13 @@ abstract class Field extends Element implements IField
         }
         
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->model->{$this->attribute};
     }
 }

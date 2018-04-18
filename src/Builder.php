@@ -48,16 +48,22 @@ class Builder extends Component
     protected $_fields = [];
 
 
+    public function init()
+    {
+        parent::init();
+
+        $this->_initFields();
+    }
+
     public function render()
     {
-        $this->_initFields();
-
         if ($this->_fields) {
             foreach ($this->_fields as $field) {
                 echo $field->run();
             }
         }
     }
+
     /**
      * @param array $fields
      * @throws InvalidConfigException
@@ -109,7 +115,7 @@ class Builder extends Component
 
             if ($config) {
                 $className = ArrayHelper::getValue($config, 'class');
-                if (!is_subclass_of($className, Field::class) ) {
+                if (!is_subclass_of($className, Field::class)) {
                     ArrayHelper::remove($config, 'model');
                     ArrayHelper::remove($config, 'attribute');
                 }
@@ -122,6 +128,7 @@ class Builder extends Component
         $this->_fields = $result;
         return $this;
     }
+
     protected function _getClearAttributeName($name)
     {
         if ($pos = strpos($name, '.')) {
@@ -130,6 +137,7 @@ class Builder extends Component
             return $name;
         }
     }
+
     /**
      * @param $key
      * @return mixed|Model
@@ -143,6 +151,7 @@ class Builder extends Component
             return $this->_model;
         }
     }
+
     /**
      * @param string $key
      * @return mixed|Model
@@ -164,15 +173,17 @@ class Builder extends Component
 
         return $model;
     }
+
     /**
      * @param ActiveForm $activeForm
      * @return $this
      */
-    public function setActiveForm(ActiveForm $activeForm)
+    public function setActiveForm(ActiveForm $activeForm = null)
     {
         $this->_activeForm = $activeForm;
         return $this;
     }
+
     /**
      * @return Model
      */
@@ -180,6 +191,7 @@ class Builder extends Component
     {
         return $this->_model;
     }
+
     /**
      * @param Model $model
      * @return $this
@@ -189,6 +201,7 @@ class Builder extends Component
         $this->_model = $model;
         return $this;
     }
+
     /**
      * @return Model[]
      */
@@ -196,6 +209,7 @@ class Builder extends Component
     {
         return $this->_models;
     }
+
     /**
      * @param Model[] $models
      * @return $this
@@ -205,6 +219,7 @@ class Builder extends Component
         $this->_models = $models;
         return $this;
     }
+
     /**
      * @return array|Field[]
      */
@@ -212,6 +227,7 @@ class Builder extends Component
     {
         return $this->_fields;
     }
+
     /**
      * @param array $fields
      * @return $this
@@ -221,6 +237,4 @@ class Builder extends Component
         $this->_fields = $fields;
         return $this;
     }
-
-
 }

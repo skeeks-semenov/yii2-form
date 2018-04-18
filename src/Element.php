@@ -63,7 +63,7 @@ class Element extends Component implements IElement
      * @param ActiveForm $activeForm
      * @return $this
      */
-    public function setActiveForm(ActiveForm $activeForm)
+    public function setActiveForm(ActiveForm $activeForm = null)
     {
         $this->_activeForm = $activeForm;
         return $this;
