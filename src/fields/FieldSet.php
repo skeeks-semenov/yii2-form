@@ -8,6 +8,7 @@
 
 namespace skeeks\yii2\form\fields;
 
+use skeeks\yii2\form\Builder;
 use skeeks\yii2\form\Field;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -41,9 +42,12 @@ class FieldSet extends Field
             $this->name = $this->attribute;
         }
 
-        $builder = clone $this->builder;
-        $builder->model = $this->model;
-        $builder->fields = $this->fields;
+        //$builder = clone $this->builder;
+        $builder = new Builder([
+            'model' => $this->model,
+            'fields' => $this->fields,
+            'activeForm' => $this->activeForm,
+        ]);
 
         echo Html::beginTag('div', [
             'class' => 'sx-form-tab tab-pane',

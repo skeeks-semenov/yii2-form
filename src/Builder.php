@@ -59,7 +59,15 @@ class Builder extends Component
     {
         if ($this->_fields) {
             foreach ($this->_fields as $field) {
-                echo $field->run();
+
+                if ($field instanceof Element) {
+                    if ($this->_activeForm) {
+                        $field->activeForm = $this->_activeForm;
+                    }
+
+                    echo $field->run();
+                }
+
             }
         }
     }
