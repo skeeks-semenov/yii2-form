@@ -101,10 +101,13 @@ class SelectField extends Field
         }
 
         if (isset($this->_items)) {
-            if ($this->_items instanceof Closure) {
-                return call_user_func($this->_items, $this);
+            
+            $items = $this->_items;
+            if ($this->_items instanceof \Closure) {
+                $items = call_user_func($this->_items, $this);
             }
-            $result = ArrayHelper::merge($result, (array)$this->_items);
+            
+            $result = ArrayHelper::merge($result, (array)$items);
         }
 
 
