@@ -118,6 +118,7 @@ class Builder extends Component
                     'activeForm' => $this->_activeForm,
                 ];
             } else {
+                //var_dump($this->_fields);die;
                 throw new InvalidConfigException('!!!');
             }
 
