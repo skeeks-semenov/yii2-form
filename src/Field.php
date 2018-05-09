@@ -166,6 +166,8 @@ abstract class Field extends Element implements IField
             );
         } else if (is_string($label)) {
             $this->_label = $label;
+        } else {
+            $this->_label = $label;
         }
         
         return $this;
