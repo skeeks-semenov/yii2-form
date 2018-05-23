@@ -118,8 +118,10 @@ class Builder extends Component
                     'activeForm' => $this->_activeForm,
                 ];
             } else {
+                \Yii::warning('Bad key: ' . $key, self::class);
+                //var_dump($key);die;
                 //var_dump($this->_fields);die;
-                throw new InvalidConfigException('!!!');
+                //throw new InvalidConfigException('!!!');
             }
 
             if ($config) {
