@@ -172,11 +172,11 @@ class Builder extends Component
     {
         $model = null;
 
-        if (!$this->_models) {
+        if (!$this->models) {
             throw new InvalidConfigException('!!!');
         }
 
-        $model = ArrayHelper::getValue($this->_models, $key);
+        $model = ArrayHelper::getValue($this->models, $key);
 
         if (!$model) {
             throw new InvalidConfigException('!!!');

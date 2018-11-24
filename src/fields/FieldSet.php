@@ -45,6 +45,7 @@ class FieldSet extends Field
         //$builder = clone $this->builder;
         $builder = new Builder([
             'model' => $this->model,
+            'models' => $this->builder->models,
             'fields' => $this->fields,
             'activeForm' => $this->activeForm,
         ]);
