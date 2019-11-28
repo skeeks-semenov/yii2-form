@@ -18,6 +18,6 @@ class HtmlRowBegin extends HtmlBlock
 {
     public function init()
     {
-        $this->content = "<div class='row'>";
+        $this->content = "<div class='row no-gutters'>";
     }
 }

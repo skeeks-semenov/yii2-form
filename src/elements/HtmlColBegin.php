@@ -16,8 +16,10 @@ use skeeks\yii2\form\fields\HtmlBlock;
  */
 class HtmlColBegin extends HtmlBlock
 {
+    public $colClass = 'col';
+
     public function init()
     {
-        $this->content = "<div class='col'>";
+        $this->content = "<div class='{$this->colClass}'>";
     }
 }
