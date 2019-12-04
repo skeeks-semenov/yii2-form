@@ -82,8 +82,18 @@ class BoolField extends Field
             $this->formElement = self::ELEMENT_LISTBOX;
             $this->elementOptions['size'] = 1;
         }
+        
+        if ($this->formElement === self::ELEMENT_CHECKBOX) {
+            //return $field->{$this->formElement}($this->elementOptions);
+            $items = [
+                $this->trueValue => ''
+            ];
+            return $field->checkboxList($items, $this->elementOptions);
+        } else {
+            return $field->{$this->formElement}($this->getItems(), $this->elementOptions);
+        }
 
-        return $field->{$this->formElement}($this->getItems(), $this->elementOptions);
+        
     }
 
     /**
