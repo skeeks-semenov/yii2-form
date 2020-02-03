@@ -8,10 +8,9 @@
 
 namespace skeeks\yii2\form\fields;
 
+use skeeks\cms\forms\IActiveFormHasFieldSets;
 use skeeks\yii2\form\Builder;
 use skeeks\yii2\form\Field;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 
 /**
  * Class FieldSetField
@@ -34,31 +33,37 @@ class FieldSet extends Field
      */
     public function render()
     {
-        if (!$id = ArrayHelper::getValue($this->_options, 'id')) {
-            $id = "sx-form-tab-id-" . md5($this->name);
-        }
-
         if (!$this->name) {
             $this->name = $this->attribute;
         }
 
         //$builder = clone $this->builder;
+
         $builder = new Builder([
-            'model' => $this->model,
-            'models' => $this->builder->models,
-            'fields' => $this->fields,
+            'model'      => $this->model,
+            'models'     => $this->builder->models,
+            'fields'     => $this->fields,
             'activeForm' => $this->activeForm,
         ]);
 
-        echo Html::beginTag('div', [
-            'class' => 'sx-form-tab tab-pane',
-            'id' => $id,
-            'data-name' => $this->name,
-            'role' => 'tabpanel',
-        ]);
+        if ($this->activeForm instanceof IActiveFormHasFieldSets) {
 
-        echo $builder->render();
-        echo Html::endTag('div');
+            return \Yii::$app->view->render('@skeeks/yii2/form/views/field-set', [
+                'builder' => $builder,
+                'fieldSetElement' => $this
+            ]);
+        } else {
+            //TODO: depricated
+            echo $this->activeForm->fieldSet($this->name);
+             $builder = new Builder([
+                'model'      => $this->model,
+                'models'     => $this->builder->models,
+                'fields'     => $this->fields,
+                'activeForm' => $this->activeForm,
+            ]);
+            echo $builder->render();
+            echo $this->activeForm->fieldSetEnd();
+        }
 
     }
 }

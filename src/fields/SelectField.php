@@ -65,11 +65,6 @@ class SelectField extends Field
         $this->_multiple = $multiple;
     }
 
-    public function init()
-    {
-        parent::init();
-    }
-
     /**
      * @return \yii\widgets\ActiveField
      */

@@ -57,6 +57,7 @@ class Builder extends Component
 
     public function render()
     {
+        $result = "";
         if ($this->_fields) {
             foreach ($this->_fields as $field) {
 
@@ -65,11 +66,13 @@ class Builder extends Component
                         $field->activeForm = $this->_activeForm;
                     }
 
-                    echo $field->run();
+                    $result .= $field->run();
                 }
 
             }
         }
+        
+        return $result;
     }
 
     /**

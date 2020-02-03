@@ -49,6 +49,6 @@ class HtmlBlock extends Element
      */
     public function render()
     {
-        echo $this->content;
+        return $this->content;
     }
 }
