@@ -54,15 +54,17 @@ class FieldSet extends Field
             ]);
         } else {
             //TODO: depricated
-            echo $this->activeForm->fieldSet($this->name);
+            $result = $this->activeForm->fieldSet($this->name);
              $builder = new Builder([
                 'model'      => $this->model,
                 'models'     => $this->builder->models,
                 'fields'     => $this->fields,
                 'activeForm' => $this->activeForm,
             ]);
-            echo $builder->render();
-            echo $this->activeForm->fieldSetEnd();
+            $result .= $builder->render();
+            $result .= $this->activeForm->fieldSetEnd();
+
+            return $result;
         }
 
     }
