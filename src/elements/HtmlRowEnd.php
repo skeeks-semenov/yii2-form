@@ -10,6 +10,7 @@ namespace skeeks\yii2\form\elements;
 
 use skeeks\yii2\form\Element;
 use skeeks\yii2\form\fields\HtmlBlock;
+use yii\helpers\Html;
 
 /**
  * @author Semenov Alexander <semenov@skeeks.com>
@@ -18,6 +19,6 @@ class HtmlRowEnd extends HtmlBlock
 {
     public function init()
     {
-        $this->content = "</div>";
+        $this->content = Html::endTag("div");
     }
 }
