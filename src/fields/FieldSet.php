@@ -29,6 +29,11 @@ class FieldSet extends Field
     public $fields = [];
 
     /**
+     * @var array 
+     */
+    public $elementOptions = [];
+
+    /**
      * @return \yii\widgets\ActiveField
      */
     public function render()

@@ -7,6 +7,6 @@
  */
 /* @var $this yii\web\View */
 /* @var $fieldSetElement \skeeks\yii2\form\fields\FieldSet */
-$fieldSet = $fieldSetElement->activeForm->fieldSet($fieldSetElement->name);
+$fieldSet = $fieldSetElement->activeForm->fieldSet($fieldSetElement->name, $fieldSetElement->elementOptions);
 echo $builder->render();
 $fieldSet::end();
