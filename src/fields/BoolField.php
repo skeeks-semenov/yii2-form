@@ -24,7 +24,7 @@ class BoolField extends Field
     /**
      * @var string
      */
-    public $formElement = self::ELEMENT_RADIO_LIST;
+    public $formElement = self::ELEMENT_CHECKBOX;
 
     /**
      * @var array
@@ -84,7 +84,7 @@ class BoolField extends Field
         }
         
         if ($this->formElement === self::ELEMENT_CHECKBOX) {
-            return $field->{$this->formElement}($this->elementOptions);
+            return $field->{$this->formElement}($this->elementOptions, false);
             /*$items = [
                 $this->trueValue => ''
             ];
