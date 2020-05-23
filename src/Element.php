@@ -8,6 +8,7 @@
 
 namespace skeeks\yii2\form;
 
+use skeeks\cms\backend\events\ViewRenderEvent;
 use yii\base\Component;
 use yii\widgets\ActiveForm;
 
@@ -47,9 +48,25 @@ class Element extends Component implements IElement
      */
     public function run()
     {
-        $this->trigger(self::EVENT_BEFORE_RENDER);
-        $result = $this->render();
-        $this->trigger(self::EVENT_AFTER_RENDER);
+        $e = new ViewRenderEvent();
+        $this->trigger(self::EVENT_BEFORE_RENDER, $e);
+
+        $result = '';
+        if ($e->content) {
+            $result .= $e->content;
+        }
+
+        if ($e->isRenderContent) {
+            $result .= $this->render();
+        }
+
+        $e = new ViewRenderEvent();
+        $this->trigger(self::EVENT_AFTER_RENDER, $e);
+
+        if ($e->content) {
+            $result .= $e->content;
+        }
+
         return $result;
     }
     /**
