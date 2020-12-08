@@ -251,4 +251,37 @@ class Builder extends Component
         $this->_fields = $fields;
         return $this;
     }
+
+
+    /**
+     * @param array $fields
+     * @param       $model
+     * @return array
+     */
+    static public function setModelToFields($fields = [], $model)
+    {
+        $result = [];
+
+        foreach ($fields as $key => $fieldConfig)
+        {
+            if ($fieldConfig && is_array($fieldConfig)) {
+                //todo: это может быть просто элемент
+                $fields[$key]['model'] = $model;
+                if (isset($fieldConfig['fields'])) {
+                    $fields[$key]['fields'] = static::setModelToFields((array) $fieldConfig['fields'], $model);
+                }
+
+                $result[$key] = $fields[$key];
+
+            } else {
+                //unset($fields[$key]);
+                $result[$fieldConfig] = [
+                    'model' => $model,
+                    'class' => TextField::class
+                ];
+            }
+        }
+        
+        return $result;
+    }
 }
