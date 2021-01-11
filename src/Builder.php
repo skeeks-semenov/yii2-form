@@ -254,11 +254,11 @@ class Builder extends Component
 
 
     /**
-     * @param array $fields
+     * @param array $fieldsshop_product_barcode
      * @param       $model
      * @return array
      */
-    static public function setModelToFields($fields = [], $model)
+    static public function setModelToFields(array $fields, $model)
     {
         $result = [];
 
