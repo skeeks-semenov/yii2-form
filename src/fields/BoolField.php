@@ -84,14 +84,18 @@ class BoolField extends Field
         }
         
         if ($this->formElement === self::ELEMENT_CHECKBOX) {
-            
+
+            $this->elementOptions['value'] = $this->trueValue;
+            $this->elementOptions['uncheck'] = $this->falseValue;
+
             return $field->{$this->formElement}($this->elementOptions, false);
             /*$items = [
                 $this->trueValue => ''
             ];
             return $field->checkboxList($items, $this->elementOptions);*/
         } else {
-            return $field->{$this->formElement}($this->getItems(), $this->elementOptions);
+
+            return '111' . $field->{$this->formElement}($this->getItems(), $this->elementOptions);
         }
 
         
