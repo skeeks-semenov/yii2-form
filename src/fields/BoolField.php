@@ -95,7 +95,7 @@ class BoolField extends Field
             return $field->checkboxList($items, $this->elementOptions);*/
         } else {
 
-            return '111' . $field->{$this->formElement}($this->getItems(), $this->elementOptions);
+            return $field->{$this->formElement}($this->getItems(), $this->elementOptions);
         }
 
         
