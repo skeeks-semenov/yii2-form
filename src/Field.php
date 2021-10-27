@@ -80,8 +80,16 @@ abstract class Field extends Element implements IField
      */
     public function getActiveField()
     {
-        if (!$this->_activeForm || !$this->_model || !$this->_attribute) {
-            throw new InvalidConfigException('Not found form or model or attribute');
+        if (!$this->_activeForm) {
+            throw new InvalidConfigException('Not found form');
+        }
+
+        if (!$this->_model) {
+            throw new InvalidConfigException('Not found model');
+        }
+
+        if (!$this->_attribute) {
+            throw new InvalidConfigException('Not found attribute');
         }
 
         $activeField = $this->_activeForm->field($this->_model, $this->_attribute, $this->_options);

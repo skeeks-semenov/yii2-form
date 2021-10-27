@@ -57,7 +57,11 @@ class Element extends Component implements IElement
         }
 
         if ($e->isRenderContent) {
-            $result .= $this->render();
+            try {
+                $result .= $this->render();
+            } catch (\Exception $exception) {
+                $result .= $exception->getMessage();
+            }
         }
 
         $e = new ViewRenderEvent();
