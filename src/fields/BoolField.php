@@ -88,7 +88,7 @@ class BoolField extends Field
             $this->elementOptions['value'] = $this->trueValue;
             $this->elementOptions['uncheck'] = $this->falseValue;
 
-            return $field->{$this->formElement}($this->elementOptions, false);
+            return $field->{$this->formElement}($this->elementOptions);
             /*$items = [
                 $this->trueValue => ''
             ];
