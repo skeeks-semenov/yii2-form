@@ -92,9 +92,9 @@ class Builder extends Component
             $config = [];
 
             if ($field instanceof Field) {
-                $result[] = $field;
+                $result[$key] = $field;
             } elseif ($field instanceof Element) {
-                $result[] = $field;
+                $result[$key] = $field;
             } elseif (is_array($field)) {
 
                 $config = ArrayHelper::merge([
@@ -133,7 +133,7 @@ class Builder extends Component
                     ArrayHelper::remove($config, 'model');
                     ArrayHelper::remove($config, 'attribute');
                 }
-                $result[] = \Yii::createObject($config);
+                $result[$key] = \Yii::createObject($config);
             }
 
 

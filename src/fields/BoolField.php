@@ -24,7 +24,7 @@ class BoolField extends Field
     /**
      * @var string
      */
-    public $formElement = self::ELEMENT_CHECKBOX;
+    public $formElement = self::ELEMENT_LISTBOX;
 
     /**
      * @var array
@@ -78,6 +78,8 @@ class BoolField extends Field
     {
         $field = parent::getActiveField();
 
+        $this->elementOptions['size'] = 1;
+        
         if ($this->allowNull) {
             $this->formElement = self::ELEMENT_LISTBOX;
             $this->elementOptions['size'] = 1;
